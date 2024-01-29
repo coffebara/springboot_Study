@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Team {
+public class Team extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -19,7 +19,8 @@ public class Team {
 
     private String name;
 
-    @OneToMany(mappedBy = "team")   // 종속관계 - mappedBy는 읽기만 가능함
+    @OneToMany
+    @JoinColumn(name = "TEAM_ID")
     private List<Member> members = new ArrayList<>();
 
 }

@@ -6,28 +6,24 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.concurrent.locks.Lock;
+
 
 @Entity
 @Getter
 @Setter
-public class Member {
+public class Member extends BaseEntity {
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
     private Long id;
 
     @Column(name= "USERNAME")
     private String username;
 
-    @ManyToOne  // 팀과 1:N 관계, 외래키가 있는 곳이 연관관계의 주인
-    @JoinColumn(name = "TEAM_ID") // 팀의 PK
-    private Team team;
-
-    // 연관관계 편의 메서드
-    public void changeTeam(Team team){
-        this.team = team;
-        team.getMembers().add(this);
-    }
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
 
 }

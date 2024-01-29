@@ -14,12 +14,13 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Long save(MemberDto memberDto) throws Exception{
+    public String save(MemberDto memberDto) throws Exception {
 
 
         return memberRepository.save(Member.builder()
                 .email(memberDto.getEmail())
                 .password(bCryptPasswordEncoder.encode(memberDto.getPassword()))
-                .build()).getId();
+                .fromSocial(memberDto.isFromSocial())
+                .build()).getEmail();
     }
 }

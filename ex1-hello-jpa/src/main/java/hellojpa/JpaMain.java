@@ -6,6 +6,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.time.LocalDateTime;
+
 public class JpaMain {
 
     public static void main(String[] args) {
@@ -18,27 +20,15 @@ public class JpaMain {
 
         try{
 
-            //저장
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
-
             Member member = new Member();
-            member.setUsername("member1");
-            member.changeTeam(team);   // **
-            em.persist(member);
+            member.setCreateBy("kim");
+            member.setUsername("user1");
+            member.setCreatedDate(LocalDateTime.now());
 
-//            team.getMembers().add(member); // ** 양방향 값 셋팅이 필요하다.
+            em.persist(member);
 
             em.flush();
             em.clear();
-
-            //조회
-            Team findTeam = em.find(Team.class, team.getId());
-            int memberSize = findTeam.getMembers().size();  // 역방향 조회
-
-            System.out.println("memberSize = " + memberSize);
-            //
 
 
             tx.commit();

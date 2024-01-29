@@ -8,12 +8,18 @@
 <h1>회원가입</h1>
 <form th:action="@{/member/join}" th:object="${memberDto}" method="post">
     <div>
-        <input type="text" th:field="*{username}" placeholder="ID"/>
+        <input type="email" th:field="*{email}" placeholder="Email"/>
+    </div>
+    <div>
+        <input type="text" th:field="*{name}" placeholder="name"/>
     </div>
     <div>
         <input type="password" th:field="*{password}" placeholder="Password"/>
     </div>
-    <input type="submit" value="회원가입"/>
+    <div>
+        <input type="checkbox" th:field="${fromSocial}" />
+    </div>
+    <button class="btn btn-primary" type="submit">Join</button>
 </form>
 </body>
 </html>

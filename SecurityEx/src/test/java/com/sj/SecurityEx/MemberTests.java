@@ -4,6 +4,7 @@ import com.sj.SecurityEx.entity.Member;
 import com.sj.SecurityEx.entity.MemberRole;
 import com.sj.SecurityEx.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,12 +52,20 @@ public class MemberTests {
     }
 
     @Test
+    @DisplayName("회원 조회")
     public void testRead() {
         Optional<Member> result = memberRepository.findByEmail("user95@zerock.org", false);
 
-        Member member = result.get();
+        if(result.isPresent()){
 
-        System.out.println("member = " + member);
+            Member member = result.get();
+
+            Assertions.assertEquals("user95@zerock.org", member.getEmail());
+            Assertions.assertEquals(false, member.isFromSocial());
+
+            System.out.println("email = " + member.getEmail());
+        }
+
     }
 
 }
