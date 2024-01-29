@@ -5,45 +5,37 @@ package hellojpa;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
-public class Member extends BaseEntity {
+public class Member {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "MEMBER_ID")
     private Long id;
 
     @Column(name = "USERNAME")
     private String username;
 
-//    @ManyToOne(fetch = FetchType.LAZY) // 프록시 객체로 조회
-    @ManyToOne(fetch = FetchType.EAGER) // 실무에선 가급적 지연 로딩만 사용!!
-                                        // 1. 즉시 로딩을 적용하면 예상하지 못한 SQL이 발생
-    //                                     2.즉시 로딩은 JPQL에서 N+1 문제를 일으킨다.
-    @JoinColumn
-    private Team team;
+    @Embedded
+    private Address homeAddress;
 
-    @OneToMany(mappedBy = "member")
-    private List<MemberProduct> memberProductLists = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOODS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private final Set<String> favoriteFoods = new HashSet<>();
 
+//    @ElementCollection
+//    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+//    private final List<Address> addressesHistory = new ArrayList<>();
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public List<MemberProduct> getMemberProductLists() {
-        return memberProductLists;
-    }
-
-    public void setMemberProductLists(List<MemberProduct> memberProductLists) {
-        this.memberProductLists = memberProductLists;
-    }
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="MEMBER_ID")
+    private List<AddressEntity> addressesHistory = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -59,5 +51,25 @@ public class Member extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public List<AddressEntity> getAddressesHistory() {
+        return addressesHistory;
+    }
+
+    public void setAddressesHistory(List<AddressEntity> addressesHistory) {
+        this.addressesHistory = addressesHistory;
     }
 }
