@@ -5,8 +5,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class JpaMain {
 
@@ -20,24 +22,43 @@ public class JpaMain {
 
         try{
 
-            Member member = new Member();
-            member.setCreateBy("kim");
-            member.setUsername("user1");
-            member.setCreatedDate(LocalDateTime.now());
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            em.persist(member);
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent);
 
             em.flush();
             em.clear();
 
+            Parent findParent = em.find(Parent.class, parent.getId());
+            em.remove(findParent);
+//            findParent.getChildList().remove(0);
+
 
             tx.commit();
         } catch (Exception e){
+            e.printStackTrace();
             tx.rollback();
         } finally {
             em.close();
         }
 
         emf.close();
+    }
+
+    private static void printMember(Member member) {
+        System.out.println("member.getUsername() = " + member.getUsername());
+    }
+
+    private static void printMemberAndTeam(Member member) {
+        String username = member.getUsername();
+        System.out.println("username = " + username);
+
+        Team team = member.getTeam();
+        System.out.println("team.getName() = " + team.getName());
     }
 }
