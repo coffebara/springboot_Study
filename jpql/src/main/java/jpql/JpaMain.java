@@ -1,21 +1,14 @@
-package hellojpa;
+package jpql;
 
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
-import org.hibernate.Hibernate;
+import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 public class JpaMain {
 
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
-
         EntityManager em = emf.createEntityManager();
 
         EntityTransaction tx = em.getTransaction();
@@ -23,18 +16,30 @@ public class JpaMain {
 
         try{
 
+
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
             Member member = new Member();
-            member.setUsername("member1");
+            member.setUsername("관리자");
+            member.setAge(10);
+            member.setType(MemberType.ADMIN);
+
+            member.setTeam(team);
+
             em.persist(member);
 
             em.flush();
+            em.clear();
 
-            List<Member> resultList = em.createNativeQuery("select MEMBER_ID, city, street, zipcode, USERNAME from MEMBER")
+            String query = "select size(t.members) from Team t";
+            List<Integer> resultList = em.createQuery(query, Integer.class)
                     .getResultList();
-
-            for(Member member1 : resultList) {
-                System.out.println("member1 = " + member1);
+            for (Integer s  : resultList){
+                System.out.println("s = " + s);
             }
+
 
             tx.commit();
         } catch (Exception e){
