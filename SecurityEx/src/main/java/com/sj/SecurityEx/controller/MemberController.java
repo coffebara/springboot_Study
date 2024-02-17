@@ -4,6 +4,7 @@ import com.sj.SecurityEx.dto.MemberDto;
 import com.sj.SecurityEx.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -19,7 +20,8 @@ public class MemberController {
     }
 
     @GetMapping("/member/join")
-    public String createForm(MemberDto memberDto){
+    public String createForm(Model model){
+//        model.addAttribute("memberDto", String email, String name, String password, boolean fromSocial);
         return "CreateMemberForm";
     }
 

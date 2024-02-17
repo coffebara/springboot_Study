@@ -20,7 +20,7 @@ public class Address {
         return getCity() + " " + getStreet() + " " + getZipcode();
     }
 
-    public boolean isVaild() {
+    public boolean isValid() {
 
         return false;
     }

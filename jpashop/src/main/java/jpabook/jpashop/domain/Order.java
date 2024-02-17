@@ -7,13 +7,13 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import static jakarta.persistence.CascadeType.*;
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "ORDERS")
 @Getter @Setter
-public class Order extends BaseEntity{
+public class Order{
 
     @Id
     @GeneratedValue

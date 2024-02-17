@@ -21,7 +21,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize // 인가, 인증
                         .requestMatchers("/", "/resources/**", "/member/**", "/login", "/logout").permitAll()
                         .requestMatchers("/admin").hasAnyRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .anyRequest().anonymous())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/")

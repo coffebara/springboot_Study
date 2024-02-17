@@ -2,10 +2,10 @@ package jpabook.jpashop.domain;
 
 import jakarta.persistence.*;
 
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
-public class Delivery extends BaseEntity {
+public class Delivery{
 
     @Id
     @GeneratedValue
