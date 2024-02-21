@@ -30,7 +30,7 @@ public class MemberRepository {
     }
     // jpql은 객체를 대상으로 조회함 <-> sql은 테이블 대상
     public List<Member> findAll() {
-        return em.createQuery("select m from member m", Member.class)
+        return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
     }
 
